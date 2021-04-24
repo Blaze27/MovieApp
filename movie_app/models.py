@@ -14,7 +14,6 @@ class Movie(models.Model):
     studio = models.ForeignKey('Studio', on_delete=models.SET_NULL, null=True)
     released_date = models.DateField()
     cover_image = models.ImageField(upload_to="cover_image")
-    review = models.CharField(max_length=200)
     genre = models.ManyToManyField('Genre')
     asin = models.CharField(max_length=10, validators=[RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch')])
 
@@ -79,4 +78,9 @@ class Director(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+
+class Review(models.Model):
+    review = models.CharField(max_length=500)
+    movie_name = models.ForeignKey('Movie', on_delete=models.CASCADE)
 
