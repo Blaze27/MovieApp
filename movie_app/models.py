@@ -25,6 +25,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.movie_title
+
+    def amazon_url(self):
+        return "https://www.amazon.com/dp/" + self.asin
     
 
 
