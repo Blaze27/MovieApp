@@ -1,5 +1,6 @@
 {% extends 'base_generic.html' %}
 
+
 {% block title %}Movie List{% endblock title %}
 
 
@@ -14,13 +15,14 @@
             {% for movie in all_movie %}
             <div class="col-md-4">
               <div class="card mb-4 shadow-sm">
+                <img src="{{ movie.cover_image.url }}" alt="{{ image }}">
                   <div class="container text-center">
-                    <h6>Movie Name</h6>
+                    <h6>{{ movie.movie_title }}</h6>
                   </div>
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="container text-center">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary btn-block">View</button>
                     </div>
                   </div>
                 </div>

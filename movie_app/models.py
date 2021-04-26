@@ -1,9 +1,18 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.utils.text import slugify
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 # Create your models here.
 
+image_storage = FileSystemStorage(
+    location=u'{0}/cover_image/'.format(settings.MEDIA_ROOT),
+    base_url=u'{0}cover_image/'.format(settings.MEDIA_URL),
+)
 
+
+def image_directory_path(instance, filename):
+    return u'{0}'.format(filename)
 
 class Movie(models.Model):
     movie_title = models.CharField(max_length=200)
@@ -13,7 +22,7 @@ class Movie(models.Model):
     director = models.ManyToManyField('Director')
     studio = models.ForeignKey('Studio', on_delete=models.SET_NULL, null=True)
     released_date = models.DateField()
-    cover_image = models.ImageField(upload_to="cover_image")
+    cover_image = models.ImageField(upload_to=image_directory_path, storage=image_storage)
     genre = models.ManyToManyField('Genre')
     asin = models.CharField(max_length=10, validators=[RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch')])
 
@@ -66,7 +75,7 @@ class Genre(models.Model):
 
 class Director(models.Model):
     first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100)
     phone_number = models.DecimalField(max_digits=10, decimal_places=0)
     birth_date = models.DateField()
